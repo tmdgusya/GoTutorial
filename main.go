@@ -4,14 +4,27 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 var errRequestFailed = errors.New("Request Failed")
 
 func main() {
-	results := make(map[string]string)
+	
+	go goCount("roach")
+	goCount("bbbb")	
+	
+}
 
-	urls := []string {
+func goCount(person string) {
+	for i:= 0; i < 10; i++ {
+		fmt.Println(person, "is Person", i)
+		time.Sleep(time.Second)
+	}
+}
+
+func makeURLArray() []string {
+	return []string {
 		"https://www.naver.com/",
 		"https://www.google.com/",
 		"https://www.facebook.com/",
@@ -19,7 +32,11 @@ func main() {
 		"https://www.daum.net/",
 		"http://www.roach-devlog.com/",
 	}
-	results["roach"] = "roach"
+}
+
+func printURLResp(urls []string) {
+	results := make(map[string]string)
+
 	for _, url := range urls {
 		var result string
 		resp, err := hitURL(url)
