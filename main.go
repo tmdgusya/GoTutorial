@@ -9,13 +9,30 @@ import (
 var errRequestFailed = errors.New("Request Failed")
 
 func main() {
+	results := make(map[string]string)
+
 	urls := []string {
 		"https://www.naver.com/",
+		"https://www.google.com/",
+		"https://www.facebook.com/",
+		"https://www.amazon.com/",
+		"https://www.daum.net/",
+		"http://www.roach-devlog.com/",
 	}
-
+	results["roach"] = "roach"
 	for _, url := range urls {
-		resp, _ := hitURL(url)
-		fmt.Println("Response", resp)
+		var result string
+		resp, err := hitURL(url)
+		if err != nil {
+			result = "FAIL"
+		}
+		if resp != nil {
+			result = "SUCCESS"
+		}
+		results[url] = result
+	}
+	for url, result := range results {
+		fmt.Println(url, result)
 	}
 }
 
