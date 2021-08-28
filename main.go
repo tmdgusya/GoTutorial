@@ -10,10 +10,18 @@ import (
 var errRequestFailed = errors.New("Request Failed")
 
 func main() {
-	
-	go goCount("roach")
-	goCount("bbbb")	
-	
+	c := make(chan bool)
+	people := [2]string {"roach", "dodo"}
+	for _, person := range people {
+		go isEquals(person, c)
+	}
+	result := <- c
+	fmt.Println(result)
+}
+
+func isEquals(person string, c chan bool) {
+	time.Sleep(time.Second * 5)
+	c <- true
 }
 
 func goCount(person string) {
